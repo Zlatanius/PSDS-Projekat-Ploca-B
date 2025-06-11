@@ -54,13 +54,13 @@ begin
 			enable => aktivno_stanje_en
 		);
 		
-	pakt_st: Aktivno_stanje
+	pakt_st: Poluaktivno_stanje
 		port map(
 			enable 			=> poluaktivno_stanje_en,
 			indicator_led 	=> oLEDR(17)
 		);
 		
-	neakt_st: Aktivno_stanje
+	neakt_st: Neaktivno_stanje
 		port map(
 			enable => neaktivno_stanje_en
 		);
