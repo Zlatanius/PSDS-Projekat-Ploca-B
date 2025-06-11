@@ -29,7 +29,8 @@ architecture Beh of Ploca_B is
 
 	component Poluaktivno_stanje
 		port(
-			enable: in std_logic
+		enable			: in 	std_logic;
+		indicator_led 	: out std_logic
 		);
 	end component;
 	
@@ -55,7 +56,8 @@ begin
 		
 	pakt_st: Aktivno_stanje
 		port map(
-			enable => poluaktivno_stanje_en
+			enable 			=> poluaktivno_stanje_en,
+			indicator_led 	=> oLEDR(17)
 		);
 		
 	neakt_st: Aktivno_stanje
@@ -68,8 +70,8 @@ begin
 	
 	neaktivno_stanje_en 		<= '1' when aktivno_stanje_en = '0' and poluaktivno_stanje_en = '0' else '0';
 	
-	oLEDR(0) <= aktivno_stanje_en;
-	oLEDR(1) <= poluaktivno_stanje_en;
-	oLEDR(2) <= neaktivno_stanje_en;
+	oLEDG(0) <= aktivno_stanje_en;
+	oLEDG(1) <= poluaktivno_stanje_en;
+	oLEDG(2) <= neaktivno_stanje_en;
 	
 end Beh;
