@@ -7,7 +7,7 @@ entity Aktivno_stanje is
 	
 		--------------------------DEBUGGING--------------------------
 		SW		: in	std_logic_vector(4 downto 0);
-		RLED	: out std_logic_vector(17 downto 0);
+		RLED	: out std_logic_vector(16 downto 0);
 		GLED 	: out std_logic_vector(4 downto 0);
 		-------------------------------------------------------------
 	
@@ -108,7 +108,7 @@ begin
 	RLED(4) <= servo_enable;
 	RLED(5) <= timer_start_sig;
 		
-	RLED(17) <= '1' when HEX_mode = "00" else
+	RLED(16) <= '1' when HEX_mode = "00" and enable = '1' else
 					'0';
 	
 end Beh;

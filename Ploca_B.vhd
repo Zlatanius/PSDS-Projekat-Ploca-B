@@ -26,7 +26,7 @@ architecture Beh of Ploca_B is
 		
 			--------------------------DEBUGGING--------------------------
 			SW		: in	std_logic_vector(4 downto 0);
-			RLED	: out std_logic_vector(17 downto 0);
+			RLED	: out std_logic_vector(16 downto 0);
 			GLED 	: out std_logic_vector(4 downto 0);
 			-------------------------------------------------------------
 		
@@ -74,7 +74,7 @@ begin
 		
 			------------DEBUGING------------
 			SW 	=> iSW(6 downto 2),
-			RLED 	=> oLEDR(17 downto 0),
+			RLED 	=> oLEDR(16 downto 0),
 			GLED	=> oLEDG(7 downto 3),
 			--------------------------------
 		
@@ -96,7 +96,7 @@ begin
 	pakt_st: Poluaktivno_stanje
 		port map(
 			enable 			=> poluaktivno_stanje_en,
-			indicator_led 	=> open,	-- SAMO TOKOM TESTIRANJA. NAKON TESTIRANJA VRATITI NA oLEDR(17)
+			indicator_led 	=> oLEDR(17),
 			active_led		=> oLEDG(1)
 		);
 		
