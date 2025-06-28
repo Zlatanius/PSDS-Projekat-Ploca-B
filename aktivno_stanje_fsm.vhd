@@ -16,7 +16,7 @@ entity aktivno_stanje_fsm is
         RequestObrada : out std_logic;
         RampOpen      : out std_logic;
         ServoEnable   : out std_logic;
-        TimerStart    : out std_logic;
+        TimerStart    : out std_logic
     );
 end aktivno_stanje_fsm;
 
