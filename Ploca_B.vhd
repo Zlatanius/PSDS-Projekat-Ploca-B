@@ -32,14 +32,13 @@ architecture Beh of Ploca_B is
 		
 			clk			: in	std_logic;
 			enable 		: in 	std_logic;
+			rx_pin 		: in 	std_logic;
 			HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
 			HEX1 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
 			HEX2 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
 			HEX3 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
 			HEX4 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
 			HEX5 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
-			UART_RX 		: in 	std_logic;
-			UART_TX 		: out std_logic;
 			servo_pin 	: out std_logic;
 			active_led	: out std_logic
 		);
@@ -71,6 +70,7 @@ architecture Beh of Ploca_B is
 begin
 	akt_st: Aktivno_stanje
 		port map(
+		-- Konkretni pinovi nisu jos definisani
 		
 			------------DEBUGING------------
 			SW 	=> iSW(6 downto 2),
@@ -80,15 +80,13 @@ begin
 		
 			clk			=> iCLK_50,
 			enable 		=> aktivno_stanje_en,
+			rx_pin 		=>	GPIO_1(0),
 			HEX0 			=>	oHEX0_D,
 			HEX1 			=> oHEX1_D,
 			HEX2 			=> oHEX2_D,
 			HEX3 			=> oHEX3_D,
 			HEX4 			=> oHEX4_D,
 			HEX5 			=> oHEX5_D,
-			-- Konkretni pinovi nisu jos definisani
-			UART_RX 		=>	GPIO_1(0),
-			UART_TX 		=>	GPIO_1(1),
 			servo_pin	=> GPIO_1(2),
 			active_led	=> oLEDG(0)
 		);
