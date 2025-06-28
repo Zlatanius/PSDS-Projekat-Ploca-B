@@ -63,6 +63,15 @@ architecture Beh of Aktivno_stanje is
 			o_rx_dv    : out std_logic -- 'Data Valid' signal, puls kada je podatak primljen
 		);
 	end component;
+	
+	component Servo_Controller
+		port (
+			clk          : in  std_logic;
+			ramp_sig     : in  std_logic;
+			servo_enable : in  std_logic;
+			pwm_out      : out std_logic
+		);
+	end component;
 	 
 --------------------------------------------------------------------
 
@@ -112,6 +121,14 @@ begin
 		o_rx_data	=>	rec_data_buffer,
 		o_rx_dv  	=> open -- za testiranje ovo je open inace treba biti rec_data_ready
 	);
+	
+	servo_module : Servo_Controller
+		port map(
+			clk         	=> clk,
+			ramp_sig    	=> ramp_sig,
+			servo_enable 	=> servo_enable,
+			pwm_out     	=> servo_pin
+		);
 
 	active_led <= enable;
 	
