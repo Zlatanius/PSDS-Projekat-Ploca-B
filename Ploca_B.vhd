@@ -7,12 +7,24 @@ entity Ploca_B is
 		iSW		: in		std_logic_vector(6	downto 0);
 		GPIO_1	: inout 	std_logic_vector(31 	downto 0);	-- GPIO_1, a ne 0 jer je sa desne strane ploce
 		
-		oHEX0_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		oHEX1_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		oHEX2_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		oHEX3_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		oHEX4_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
-		oHEX5_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
+		oHEX0_D	: out 	std_logic_vector(6 	downto 0);	
+		oHEX1_D	: out 	std_logic_vector(6 	downto 0);	
+		oHEX2_D	: out 	std_logic_vector(6 	downto 0);	
+		
+		oHEX3_D	: out 	std_logic_vector(6 	downto 0) := (others => '1');	
+		oHEX4_D	: out 	std_logic_vector(6 	downto 0) := (others => '1');	
+		oHEX5_D	: out 	std_logic_vector(6 	downto 0) := (others => '1');	
+		oHEX6_D	: out 	std_logic_vector(6 	downto 0) := (others => '1');	
+		oHEX7_D	: out 	std_logic_vector(6 	downto 0) := (others => '1');	
+		
+		oHEX0_DP : out 	std_logic := '1';
+		oHEX1_DP : out 	std_logic := '1';
+		oHEX2_DP : out 	std_logic := '1';
+		oHEX3_DP : out 	std_logic := '1';
+		oHEX4_DP : out 	std_logic := '1';
+		oHEX5_DP : out 	std_logic := '1';
+		oHEX6_DP : out 	std_logic := '1';
+		oHEX7_DP : out 	std_logic := '1';
 		
 		oLEDR		: out 	std_logic_vector(17 	downto 0);	-- Stavio sam sve ledice cisto da ih imamo ako bude trebalo za debugiranje
 		oLEDG		: out 	std_logic_vector(7 	downto 0)
@@ -33,12 +45,9 @@ architecture Beh of Ploca_B is
 			clk			: in	std_logic;
 			enable 		: in 	std_logic;
 			rx_pin 		: in 	std_logic;
-			HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-			HEX1 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-			HEX2 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-			HEX3 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-			HEX4 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
-			HEX5 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
+			HEX0 			: out std_logic_vector(6 	downto 0);
+			HEX1 			: out std_logic_vector(6 	downto 0);
+			HEX2 			: out std_logic_vector(6 	downto 0);
 			servo_pin 	: out std_logic;
 			active_led	: out std_logic
 		);
@@ -84,9 +93,6 @@ begin
 			HEX0 			=>	oHEX0_D,
 			HEX1 			=> oHEX1_D,
 			HEX2 			=> oHEX2_D,
-			HEX3 			=> oHEX3_D,
-			HEX4 			=> oHEX4_D,
-			HEX5 			=> oHEX5_D,
 			servo_pin	=> GPIO_1(2),
 			active_led	=> oLEDG(0)
 		);

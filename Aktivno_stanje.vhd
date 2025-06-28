@@ -16,12 +16,9 @@ entity Aktivno_stanje is
 		clk 			: in	std_logic;
 		enable 		: in 	std_logic;
 		rx_pin 		: in 	std_logic;
-		HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX1 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX2 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX3 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX4 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
-		HEX5 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
+		HEX0 			: out std_logic_vector(6 	downto 0);
+		HEX1 			: out std_logic_vector(6 	downto 0);
+		HEX2 			: out std_logic_vector(6 	downto 0);
 		servo_pin 	: out std_logic;
 		active_led	: out std_logic
 	);
@@ -72,6 +69,17 @@ architecture Beh of Aktivno_stanje is
 			pwm_out      : out std_logic
 		);
 	end component;
+	
+	component HEX_Controller
+		port (
+        data_in  : in  std_logic_vector(7 downto 0);
+        time_in  : in  std_logic_vector(7 downto 0);
+        mode     : in  std_logic_vector(1 downto 0);
+        HEX0     : out std_logic_vector(6 downto 0);
+        HEX1     : out std_logic_vector(6 downto 0);
+        HEX2     : out std_logic_vector(6 downto 0)
+		);
+	 end component;
 	 
 --------------------------------------------------------------------
 
@@ -82,6 +90,7 @@ architecture Beh of Aktivno_stanje is
 
 	-- Signali za simulaciju
 	signal prosjek 	: unsigned(7 downto 0) := to_unsigned(0, 8);
+	signal time_mock 	: unsigned(7 downto 0) := to_unsigned(45, 8);
 	signal hex_mode	: std_logic_vector(1 downto 0);
 	
 	signal obrada_sig			: std_logic := '0';
@@ -128,6 +137,16 @@ begin
 			ramp_sig    	=> ramp_sig,
 			servo_enable 	=> servo_enable,
 			pwm_out     	=> servo_pin
+		);
+		
+	hex_module : HEX_Controller
+		port map(
+			data_in 	=> std_logic_vector(prosjek),
+			time_in 	=> std_logic_vector(time_mock),
+			mode   	=> hex_mode,
+			HEX0   	=> HEX0,
+			HEX1   	=> HEX1,
+			HEX2   	=> HEX2
 		);
 
 	active_led <= enable;
