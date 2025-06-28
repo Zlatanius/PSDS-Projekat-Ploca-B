@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity Ploca_B is
 	port(
 		iCLK_50	: in 		std_logic;
-		iSW		: in		std_logic_vector(1	downto 0);
+		iSW		: in		std_logic_vector(6	downto 0);
 		GPIO_1	: inout 	std_logic_vector(31 	downto 0);	-- GPIO_1, a ne 0 jer je sa desne strane ploce
 		
 		oHEX0_D	: out 	std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
@@ -23,6 +23,13 @@ architecture Beh of Ploca_B is
 
 	component Aktivno_stanje
 		port(
+		
+			--------------------------DEBUGGING--------------------------
+			SW		: in	std_logic_vector(4 downto 0);
+			RLED	: out std_logic_vector(17 downto 0);
+			GLED 	: out std_logic_vector(4 downto 0);
+			-------------------------------------------------------------
+		
 			clk			: in	std_logic;
 			enable 		: in 	std_logic;
 			HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
@@ -64,6 +71,13 @@ architecture Beh of Ploca_B is
 begin
 	akt_st: Aktivno_stanje
 		port map(
+		
+			------------DEBUGING------------
+			SW 	=> iSW(6 downto 2),
+			RLED 	=> oLEDR(17 downto 0),
+			GLED	=> oLEDG(7 downto 3),
+			--------------------------------
+		
 			clk			=> iCLK_50,
 			enable 		=> aktivno_stanje_en,
 			HEX0 			=>	oHEX0_D,
@@ -82,7 +96,7 @@ begin
 	pakt_st: Poluaktivno_stanje
 		port map(
 			enable 			=> poluaktivno_stanje_en,
-			indicator_led 	=> oLEDR(17),
+			indicator_led 	=> open,	-- SAMO TOKOM TESTIRANJA. NAKON TESTIRANJA VRATITI NA oLEDR(17)
 			active_led		=> oLEDG(1)
 		);
 		

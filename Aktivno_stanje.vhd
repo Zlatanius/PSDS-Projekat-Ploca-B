@@ -4,6 +4,13 @@ use ieee.numeric_std.all;
 
 entity Aktivno_stanje is
 	port(
+	
+		--------------------------DEBUGGING--------------------------
+		SW		: in	std_logic_vector(4 downto 0);
+		RLED	: out std_logic_vector(17 downto 0);
+		GLED 	: out std_logic_vector(4 downto 0);
+		-------------------------------------------------------------
+	
 		clk 			: in	std_logic;
 		enable 		: in 	std_logic;
 		HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
@@ -35,7 +42,9 @@ architecture Beh of Aktivno_stanje is
         RequestObrada : out std_logic;
         RampOpen      : out std_logic;
         ServoEnable   : out std_logic;
-        TimerStart    : out std_logic
+        TimerStart    : out std_logic;
+		  --Debug leds
+		  state_leds	 : out std_logic_vector(2 downto 0)
 		);
 	 end component;
 
@@ -66,8 +75,40 @@ begin
 			RequestObrada	=> obrada_req,
 			RampOpen     	=> ramp_sig,
 			ServoEnable  	=> servo_enable,
-			TimerStart   	=> timer_start_sig
+			TimerStart   	=> timer_start_sig,
+			state_leds		=> GLED(4 downto 2)
 		);
 
 	active_led <= enable;
+	
+	
+	
+	
+	
+	-------------------------- RUCNO TESTIRANJE ------------------------
+	
+	-- FSM signali simulirani preko prekidaca. Kada se budu dodavale komponente
+	-- uklanjat ce se simulirani signali.
+	
+	-- Ulazi
+	prosjek <= 	to_unsigned(10, 8) 	when SW(0) = '1' else
+					to_unsigned(100, 8);
+	
+	obrada_sig			<= SW(1);
+	new_data_sig		<= SW(2);
+	timer_done_sig		<= SW(3);
+	
+	-- Izlazi
+	RLED(0) <= hex_enable;
+	
+	RLED(1) <= '1' when HEX_mode = "01" else 	-- Data 
+				  '0';									-- Time
+	RLED(2) <= obrada_req;
+	RLED(3) <= ramp_sig;
+	RLED(4) <= servo_enable;
+	RLED(5) <= timer_start_sig;
+		
+	RLED(17) <= '1' when HEX_mode = "00" else
+					'0';
+	
 end Beh;
