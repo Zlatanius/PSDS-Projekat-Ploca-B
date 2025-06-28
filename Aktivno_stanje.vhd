@@ -16,12 +16,9 @@ entity Aktivno_stanje is
 		clk 			: in	std_logic;
 		enable 		: in 	std_logic;
 		rx_pin 		: in 	std_logic;
-		HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX1 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX2 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX3 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
-		HEX4 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
-		HEX5 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje vrmena
+		HEX0 			: out std_logic_vector(6 	downto 0);
+		HEX1 			: out std_logic_vector(6 	downto 0);
+		HEX2 			: out std_logic_vector(6 	downto 0);
 		servo_pin 	: out std_logic;
 		active_led	: out std_logic
 	);
