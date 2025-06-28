@@ -80,6 +80,16 @@ architecture Beh of Aktivno_stanje is
         HEX2     : out std_logic_vector(6 downto 0)
 		);
 	 end component;
+
+	component Timer_Module
+		port (
+			clk         : in  std_logic;
+			time_start  : in  std_logic;
+			time_out    : out std_logic_vector(7 downto 0);
+			timer_done  : out std_logic
+		);
+	end component;
+
 	 
 --------------------------------------------------------------------
 
