@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity Aktivno_stanje is
 	port(
+		clk 			: in	std_logic;
 		enable 		: in 	std_logic;
 		HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
 		HEX1 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine

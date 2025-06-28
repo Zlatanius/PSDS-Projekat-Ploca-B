@@ -23,6 +23,7 @@ architecture Beh of Ploca_B is
 
 	component Aktivno_stanje
 		port(
+			clk			: in	std_logic;
 			enable 		: in 	std_logic;
 			HEX0 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
 			HEX1 			: out std_logic_vector(6 	downto 0);	-- Hex za prikazivanje prosjecne brzine
@@ -63,6 +64,7 @@ architecture Beh of Ploca_B is
 begin
 	akt_st: Aktivno_stanje
 		port map(
+			clk			=> iCLK_50,
 			enable 		=> aktivno_stanje_en,
 			HEX0 			=>	oHEX0_D,
 			HEX1 			=> oHEX1_D,

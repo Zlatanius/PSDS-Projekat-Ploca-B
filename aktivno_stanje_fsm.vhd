@@ -17,8 +17,6 @@ entity aktivno_stanje_fsm is
         RampOpen      : out std_logic;
         ServoEnable   : out std_logic;
         TimerStart    : out std_logic;
-		  state_leds	 : out std_logic_vector(2 downto 0)
-
     );
 end aktivno_stanje_fsm;
 
@@ -87,9 +85,6 @@ begin
                 ServoEnable   <= '1';
                 TimerStart    <= '0';
 					 
-					 state_leds 	<= (others => '0');
-					 state_leds(0) <= '1';
-					 
             when q1 =>
                 HEX_Enable    <= '1';
                 Hex_Mode      <= "01"; -- Data
@@ -97,9 +92,6 @@ begin
                 RampOpen      <= '0';
                 ServoEnable   <= '1';
                 TimerStart    <= '0';
-					 
-					 state_leds 	<= (others => '0');
-					 state_leds(1) <= '1';
 
             when q2 =>
                 HEX_Enable    <= '1';
@@ -108,9 +100,6 @@ begin
                 RampOpen      <= '1';
                 ServoEnable   <= '1';
                 TimerStart    <= '1';
-					 
-					 state_leds 	<= (others => '0');
-					 state_leds(2) <= '1';
 
             when disabled =>
                 HEX_Enable    <= '0';
@@ -119,8 +108,6 @@ begin
                 RampOpen      <= '0';
                 ServoEnable   <= '0';
                 TimerStart    <= '0';
-					 
-					 state_leds 	<= (others => '0');
 				
 				when others =>
                 HEX_Enable    <= '0';
@@ -129,8 +116,6 @@ begin
                 RampOpen      <= '0';
                 ServoEnable   <= '0';
                 TimerStart    <= '0';
-					 
-					 state_leds 	<= (others => '0');
         end case;
     end process;
 
