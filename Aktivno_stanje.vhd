@@ -96,20 +96,22 @@ architecture Beh of Aktivno_stanje is
 ------------------------------SIGNALI-------------------------------
 
 	signal rec_data_buffer 	: std_logic_vector(7 downto 0);
-	signal rec_data_ready	: std_logic := '0';
-
-	-- Signali za simulaciju
-	signal prosjek 	: unsigned(7 downto 0) := to_unsigned(0, 8);
-	signal time_mock 	: unsigned(7 downto 0) := to_unsigned(45, 8);
-	signal hex_mode	: std_logic_vector(1 downto 0);
+	signal hex_mode			: std_logic_vector(1 downto 0);
+	signal time_data		 	: std_logic_vector(7 downto 0);
 	
-	signal obrada_sig			: std_logic := '0';
-	signal timer_done_sig	: std_logic := '0';
+	signal rec_data_ready	: std_logic := '0';
 	signal hex_enable			: std_logic := '0';
-	signal obrada_req			: std_logic := '0';
 	signal ramp_sig			: std_logic := '0';
 	signal servo_enable		: std_logic := '0';
 	signal timer_start_sig	: std_logic := '0';
+	signal timer_done_sig	: std_logic := '0';
+
+	-- Signali za simulaciju
+	signal prosjek 	: unsigned(7 downto 0) := to_unsigned(0, 8);
+	
+	signal obrada_sig			: std_logic := '0';
+	signal obrada_req			: std_logic := '0';
+	
 
 --------------------------------------------------------------------
 
@@ -152,11 +154,19 @@ begin
 	hex_module : HEX_Controller
 		port map(
 			data_in 	=> std_logic_vector(prosjek),
-			time_in 	=> std_logic_vector(time_mock),
+			time_in 	=> time_data,
 			mode   	=> hex_mode,
 			HEX0   	=> HEX0,
 			HEX1   	=> HEX1,
 			HEX2   	=> HEX2
+		);
+		
+	timer: Timer_Module
+		port map(
+			clk       	=> clk,
+			time_start	=> timer_start_sig,
+			time_out  	=> time_data,
+			timer_done	=> timer_done_sig
 		);
 
 	active_led <= enable;
@@ -175,7 +185,6 @@ begin
 	
 	obrada_sig			<= SW(1);
 	rec_data_ready		<= SW(2);
-	timer_done_sig		<= SW(3);
 	
 	-- Izlazi
 	RLED(0) <= hex_enable;
