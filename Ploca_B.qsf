@@ -583,6 +583,7 @@ set_global_assignment -name VHDL_FILE SS4Bit.vhd
 set_global_assignment -name VHDL_FILE SS8BitDec.vhd
 set_global_assignment -name VHDL_FILE Servo_Driver.vhd
 set_global_assignment -name VHDL_FILE uart_rx.vhd
+set_global_assignment -name VHDL_FILE memcontr.vhd
 set_global_assignment -name VHDL_FILE Ploca_B.vhd
 set_global_assignment -name VHDL_FILE Aktivno_stanje.vhd
 set_global_assignment -name VHDL_FILE Poluaktivno_stanje.vhd
