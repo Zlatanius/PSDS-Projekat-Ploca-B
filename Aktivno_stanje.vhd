@@ -89,6 +89,31 @@ architecture Beh of Aktivno_stanje is
 			timer_done  : out std_logic
 		);
 	end component;
+	
+	component Obrada
+		Port (
+        clk					: in  std_logic;
+		  reset				: in  std_logic;
+        data_in			: in  std_logic_vector(7 downto 0);
+        request_obrada	: in  std_logic;
+        obrada_done		: out std_logic;
+        prosjek			: out std_logic_vector(15 downto 0)
+		);
+	 end component;
+	 
+------------------------------TMP-------------------------------
+	 component ButtonDebounce
+		port(
+			button_in 	: in 	std_logic;
+			clock			: in	std_logic;
+			button_out	: out std_logic
+		);
+	 end component;
+----------------------------------------------------------------
+
+	 
+	 
+	 
 
 	 
 --------------------------------------------------------------------
@@ -107,10 +132,14 @@ architecture Beh of Aktivno_stanje is
 	signal timer_done_sig	: std_logic := '0';
 
 	-- Signali za simulaciju
-	signal prosjek 	: unsigned(7 downto 0) := to_unsigned(0, 8);
+	signal prosjek 		: unsigned(7 downto 0) := to_unsigned(0, 8);
+	signal prosjek_std	: std_logic_vector(15 downto 0);
+	signal mock_rec_data	: unsigned(7 downto 0) := to_unsigned(54, 8);
 	
 	signal obrada_sig			: std_logic := '0';
 	signal obrada_req			: std_logic := '0';
+	signal obrada_req_db		: std_logic := '0';
+	signal rec_data_ready_db: std_logic := '0';
 	
 
 --------------------------------------------------------------------
@@ -123,7 +152,7 @@ begin
 		reset        	=> '0',
 		Prosjek      	=> prosjek,
 		ObradaDone   	=> obrada_sig,
-		NoviPodatak  	=> rec_data_ready,
+		NoviPodatak  	=> rec_data_ready_db,
 		Timer_done	 	=> timer_done_sig,
 		HEX_Enable   	=> hex_enable,
 		Hex_Mode     	=> hex_mode,
@@ -169,6 +198,31 @@ begin
 			timer_done	=> timer_done_sig
 		);
 
+	obrada_module: Obrada
+		port map(
+			clk					=> clk,
+			reset					=> '0',
+			data_in				=> std_logic_vector(mock_rec_data),
+			request_obrada		=> obrada_req_db,
+			obrada_done			=> obrada_sig,
+			prosjek				=> prosjek_std
+		);
+		
+	sw_db: ButtonDebounce
+		port map(
+			button_in 	=> SW(2),
+			clock			=> clk,
+			button_out	=> rec_data_ready_db
+		);
+		
+	obrada_req_db_comp: ButtonDebounce
+		port map(
+			button_in 	=> obrada_req,
+			clock			=> clk,
+			button_out	=> obrada_req_db
+		);
+		
+	prosjek <= unsigned(prosjek_std(7 downto 0));
 	active_led <= enable;
 	
 	
@@ -180,11 +234,10 @@ begin
 	-- uklanjat ce se simulirani signali.
 	
 	-- Ulazi
-	prosjek <= 	to_unsigned(10, 8) 	when SW(0) = '1' else
-					to_unsigned(100, 8);
-	
-	obrada_sig			<= SW(1);
-	rec_data_ready		<= SW(2);
+	mock_rec_data <= 	to_unsigned(10, 8) 	when SW(0) = '0' and SW(1) = '0' else
+							to_unsigned(50, 8)	when SW(0) = '0' and SW(1) = '1' else
+							to_unsigned(100, 8)	when SW(0) = '1' and SW(1) = '0' else
+							to_unsigned(150, 8);
 	
 	-- Izlazi
 	RLED(0) <= hex_enable;

@@ -1,0 +1,42 @@
+# do Ploca_B.do 
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Ploca_B
+# 
+# Top level modules:
+# 	Ploca_B
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Ploca_B_vlg_vec_tst
+# 
+# Top level modules:
+# 	Ploca_B_vlg_vec_tst
+# vsim -L cycloneii_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate -c -t 1ps -novopt work.Ploca_B_vlg_vec_tst 
+# Loading work.Ploca_B_vlg_vec_tst
+# Loading work.Ploca_B
+# Loading cycloneii_ver.cycloneii_lcell_comb
+# Loading cycloneii_ver.cycloneii_lcell_ff
+# Loading cycloneii_ver.cycloneii_mac_out
+# Loading cycloneii_ver.cycloneii_ram_block
+# Loading cycloneii_ver.cycloneii_ram_register
+# Loading cycloneii_ver.cycloneii_ram_pulse_generator
+# Loading cycloneii_ver.cycloneii_io
+# Loading cycloneii_ver.cycloneii_mux21
+# Loading cycloneii_ver.cycloneii_dffe
+# Loading cycloneii_ver.cycloneii_asynch_io
+# Loading cycloneii_ver.cycloneii_clkctrl
+# Loading cycloneii_ver.cycloneii_mux41
+# Loading cycloneii_ver.cycloneii_ena_reg
+# Loading cycloneii_ver.cycloneii_mac_mult
+# Loading cycloneii_ver.cycloneii_mac_data_reg
+# Loading cycloneii_ver.cycloneii_mac_sign_reg
+# Loading cycloneii_ver.cycloneii_mac_mult_internal
+# Loading cycloneii_ver.CYCLONEII_PRIM_DFFE
+# ** Warning: (vsim-8607) c:/altera/13.0sp1/modelsim_ase/win32aloem/../altera/verilog/src/cycloneii_atoms.v(6778): Non-positive replication multiplier inside concat. Replication will be ignored.
+# 
+# ** Warning: (vsim-8607) c:/altera/13.0sp1/modelsim_ase/win32aloem/../altera/verilog/src/cycloneii_atoms.v(6779): Non-positive replication multiplier inside concat. Replication will be ignored.
+# 
+# ** Warning: (vsim-8607) c:/altera/13.0sp1/modelsim_ase/win32aloem/../altera/verilog/src/cycloneii_atoms.v(6778): Non-positive replication multiplier inside concat. Replication will be ignored.
+# 
+# ** Warning: (vsim-8607) c:/altera/13.0sp1/modelsim_ase/win32aloem/../altera/verilog/src/cycloneii_atoms.v(6779): Non-positive replication multiplier inside concat. Replication will be ignored.
+# 
+# ** Note: $finish    : Ploca_B.vt(84)
+#    Time: 1 us  Iteration: 0  Instance: /Ploca_B_vlg_vec_tst

@@ -1,0 +1,45 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\jakic\Documents\Faks\PSDS\Quartus_Projects\PSDS-Projekat-Ploca-B\simulation\qsim
+vPloca_B
+Z1 ImSKH4OdA4dVMOcDE=D5IE2
+Z2 VgbMklUSCAR;O<^Rg9<ASX2
+Z3 dC:\Users\jakic\Documents\Faks\PSDS\Quartus_Projects\PSDS-Projekat-Ploca-B\simulation\qsim
+Z4 w1751819157
+Z5 8Ploca_B.vo
+Z6 FPloca_B.vo
+L0 31
+Z7 OV;L;10.1d;51
+r1
+31
+Z8 o-work work -O0
+Z9 n@ploca_@b
+!i10b 1
+Z10 !s100 ]14]idM3WW42hMhTkSeO:1
+!s85 0
+Z11 !s108 1751819159.840000
+Z12 !s107 Ploca_B.vo|
+Z13 !s90 -work|work|Ploca_B.vo|
+!s101 -O0
+vPloca_B_vlg_vec_tst
+!i10b 1
+!s100 `ef7k?eFgQJzHB:X_:7QL0
+I_;fiUKb1]I>W6@91AD^8F1
+VDYa3W_nW?A9eMRXBzR0?g1
+R3
+w1751819155
+8Ploca_B.vt
+FPloca_B.vt
+L0 29
+R7
+r1
+!s85 0
+31
+!s108 1751819160.213000
+!s107 Ploca_B.vt|
+!s90 -work|work|Ploca_B.vt|
+!s101 -O0
+R8
+n@ploca_@b_vlg_vec_tst

@@ -41,7 +41,7 @@ begin
                     second_counter <= 0;
                     if time_counter < 60 then
                         time_counter <= time_counter + 1;
-                        if time_counter = 59 then
+                        if time_counter = 9 then
                             done_pulse <= '1'; -- pulse on 60th second
                             running    <= '0'; -- stop timer
                         end if;
