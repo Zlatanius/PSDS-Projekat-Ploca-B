@@ -17,6 +17,7 @@ entity aktivno_stanje_fsm is
         RampOpen      : out std_logic;
         ServoEnable   : out std_logic;
         TimerStart    : out std_logic;
+		  reset_uart 	 : out std_logic;
 		  -- DEBUG
 		  state_leds	 : out std_logic_vector(2 downto 0)
     );
@@ -45,6 +46,7 @@ begin
 		if enable = '1' then
 			case current_state is
 					when q0 =>
+						reset_uart <= '0';
 						if NoviPodatak = '1' then
 							next_state <= q1;
 						else
@@ -52,10 +54,12 @@ begin
 						end if;
 	
 					when q1 =>
-						if Prosjek < 20 and ObradaDone = '1' then
+						if Prosjek <= 20 and ObradaDone = '1' then
 							next_state <= q2;
+							reset_uart <= '1';
 						elsif Prosjek > 20 and ObradaDone = '1' then
 							next_state <= q0;
+							reset_uart <= '1';
 						else
 							next_state <= q1;
 						end if;

@@ -31,6 +31,7 @@ architecture rtl of Obrada is
     signal weight_scaled         : unsigned(31 downto 0) := ONE_SCALED;
     signal weighted_sum_scaled   : unsigned(31 downto 0) := to_unsigned(0, 32);
     signal sum_of_weights_scaled : unsigned(31 downto 0) := to_unsigned(0, 32);
+	 signal tmp_div			 		: unsigned(31 downto 0) := to_unsigned(0, 32);
 
     ATTRIBUTE keep : BOOLEAN;
     ATTRIBUTE keep OF state : SIGNAL IS true;
@@ -83,11 +84,13 @@ begin
                     temp_weight_mult   := ONE_SCALED - ALPHA_SCALED;
                     new_weight_scaled  := unsigned(weight_scaled * temp_weight_mult)(31 downto 0) / SCALE_FACTOR;
 
-                    -- Now update signals
+                    tmp_div <= new_weighted_sum / new_sum_of_weights;
+						  
+						  -- Now update signals
                     weighted_sum_scaled     <= new_weighted_sum;
                     sum_of_weights_scaled   <= new_sum_of_weights;
                     weight_scaled           <= new_weight_scaled;
-
+						  
                     if read_addr = 0 then
                         state <= DONE;
                     else
@@ -97,9 +100,9 @@ begin
 
                 when DONE =>
                     if sum_of_weights_scaled > 0 then
-                        prosjek <= std_logic_vector(resize(weighted_sum_scaled / sum_of_weights_scaled, 16));
+                        prosjek <= std_logic_vector(tmp_div(15 downto 0));
 						  else
-                        prosjek <= (others => '0');
+                        prosjek <= (others 	=> '0');
                     end if;
 
                     obrada_done <= '1';

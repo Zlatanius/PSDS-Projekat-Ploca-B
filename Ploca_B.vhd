@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity Ploca_B is
 	port(
-		iCLK_50	: in 		std_logic;
+		iCLK_28	: in 		std_logic;
 		iSW		: in		std_logic_vector(6	downto 0);
 		GPIO_1	: inout 	std_logic_vector(31 	downto 0);	-- GPIO_1, a ne 0 jer je sa desne strane ploce
 		
@@ -55,9 +55,12 @@ architecture Beh of Ploca_B is
 
 	component Poluaktivno_stanje
 		port(
+		clk				: in	std_logic;
 		enable			: in 	std_logic;
+		servo_sw			: in 	std_logic;
 		indicator_led 	: out std_logic;
-		active_led	: out std_logic
+		servo_pin 		: out std_logic;
+		active_led		: out std_logic
 		);
 	end component;
 	
@@ -75,6 +78,9 @@ architecture Beh of Ploca_B is
 	signal aktivno_stanje_en 		: std_logic := '0';
 	signal poluaktivno_stanje_en 	: std_logic := '0';
 	signal neaktivno_stanje_en 	: std_logic := '0';
+	
+	signal akt_servo_sig		: std_logic := '0';
+	signal pakt_servo_sig	: std_logic := '0';
 
 begin
 	akt_st: Aktivno_stanje
@@ -87,19 +93,22 @@ begin
 			GLED	=> oLEDG(7 downto 3),
 			--------------------------------
 		
-			clk			=> iCLK_50,
+			clk			=> iCLK_28,
 			enable 		=> aktivno_stanje_en,
 			rx_pin 		=>	GPIO_1(0),
 			HEX0 			=>	oHEX0_D,
 			HEX1 			=> oHEX1_D,
 			HEX2 			=> oHEX2_D,
-			servo_pin	=> GPIO_1(2),
+			servo_pin	=> akt_servo_sig,
 			active_led	=> oLEDG(0)
 		);
 		
 	pakt_st: Poluaktivno_stanje
 		port map(
+			clk 				=> iCLK_28,
 			enable 			=> poluaktivno_stanje_en,
+			servo_sw			=> iSW(5),
+			servo_pin		=> pakt_servo_sig,
 			indicator_led 	=> oLEDR(17),
 			active_led		=> oLEDG(1)
 		);
@@ -114,5 +123,7 @@ begin
 	poluaktivno_stanje_en 	<= '1' when SW0 = '0' and SW1 = '1' else '0';
 	
 	neaktivno_stanje_en 		<= '1' when aktivno_stanje_en = '0' and poluaktivno_stanje_en = '0' else '0';
+	
+	GPIO_1(2) <= akt_servo_sig or pakt_servo_sig;
 	
 end Beh;

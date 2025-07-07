@@ -11,7 +11,7 @@ entity ButtonDebounce is
 end entity;
 
 architecture Beh of ButtonDebounce is
-	constant STABLE_COUNT : integer := 50000; -- adjust for debounce time
+	constant STABLE_COUNT : integer := 5; -- adjust for debounce time
 	signal counter        : integer := 0;
 	signal button_sync    : std_logic := '0';
 	signal button_last    : std_logic := '0';

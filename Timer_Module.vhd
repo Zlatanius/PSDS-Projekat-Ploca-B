@@ -13,7 +13,7 @@ end entity;
 
 
 architecture Behavioral of Timer_Module is
-    constant CLK_FREQ     : integer := 50_000_000;
+    constant CLK_FREQ     : integer := 28_000_000;
     constant SEC_COUNT    : integer := CLK_FREQ; -- 50M cycles for 1 second
 
     signal second_counter : integer range 0 to SEC_COUNT - 1 := 0;

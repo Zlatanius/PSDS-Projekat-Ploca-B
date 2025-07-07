@@ -42,23 +42,27 @@ architecture Beh of Aktivno_stanje is
 			RampOpen      	: out std_logic;
 			ServoEnable   	: out std_logic;
 			TimerStart    	: out std_logic;
+			reset_uart		: out std_logic;
 			--Debug leds
 			state_leds	 	: out std_logic_vector(2 downto 0)
 		);
 	end component;
 	 
 	component uart_rx
-		generic (
-			CLK_FREQ  : integer := 50_000_000;
-			BAUD_RATE : integer := 9600
-		);
-		port (
-			i_clk      : in  std_logic;
-			i_rst      : in  std_logic;
-			i_uart_rx  : in  std_logic;
-			o_rx_data  : out std_logic_vector(7 downto 0);
-			o_rx_dv    : out std_logic -- 'Data Valid' signal, puls kada je podatak primljen
-		);
+		Port (
+        clk      : in  std_logic;
+        rst      : in  std_logic;
+        rx       : in  std_logic;
+        data_out : out std_logic_vector(7 downto 0);
+        ready    : out std_logic
+    );
+--		port (
+--			i_clk      : in  std_logic;
+--			i_rst      : in  std_logic;
+--			i_uart_rx  : in  std_logic;
+--			o_rx_data  : out std_logic_vector(7 downto 0);
+--			o_rx_dv    : out std_logic -- 'Data Valid' signal, puls kada je podatak primljen
+--		);
 	end component;
 	
 	component Servo_Controller
@@ -123,6 +127,8 @@ architecture Beh of Aktivno_stanje is
 	signal rec_data_buffer 	: std_logic_vector(7 downto 0);
 	signal hex_mode			: std_logic_vector(1 downto 0);
 	signal time_data		 	: std_logic_vector(7 downto 0);
+	signal prosjek 			: unsigned(7 downto 0) := to_unsigned(0, 8);
+	signal prosjek_std		: std_logic_vector(15 downto 0);
 	
 	signal rec_data_ready	: std_logic := '0';
 	signal hex_enable			: std_logic := '0';
@@ -132,8 +138,7 @@ architecture Beh of Aktivno_stanje is
 	signal timer_done_sig	: std_logic := '0';
 
 	-- Signali za simulaciju
-	signal prosjek 		: unsigned(7 downto 0) := to_unsigned(0, 8);
-	signal prosjek_std	: std_logic_vector(15 downto 0);
+
 	signal mock_rec_data	: unsigned(7 downto 0) := to_unsigned(54, 8);
 	
 	signal obrada_sig			: std_logic := '0';
@@ -141,6 +146,7 @@ architecture Beh of Aktivno_stanje is
 	signal obrada_req_db		: std_logic := '0';
 	signal rec_data_ready_db: std_logic := '0';
 	
+	signal reset_uart 		: std_logic;
 
 --------------------------------------------------------------------
 
@@ -152,24 +158,25 @@ begin
 		reset        	=> '0',
 		Prosjek      	=> prosjek,
 		ObradaDone   	=> obrada_sig,
-		NoviPodatak  	=> rec_data_ready_db,
+		NoviPodatak  	=> rec_data_ready,
 		Timer_done	 	=> timer_done_sig,
 		HEX_Enable   	=> hex_enable,
 		Hex_Mode     	=> hex_mode,
 		RequestObrada	=> obrada_req,
 		RampOpen     	=> ramp_sig,
 		ServoEnable  	=> servo_enable,
+		reset_uart		=> reset_uart,
 		TimerStart   	=> timer_start_sig,
 		state_leds		=> GLED(4 downto 2)
 	);
 	
 	uart_module : uart_rx
 	port map(
-		i_clk    	=> clk,
-		i_rst    	=> '0',
-		i_uart_rx	=> rx_pin,
-		o_rx_data	=>	rec_data_buffer,
-		o_rx_dv  	=> open -- za testiranje ovo je open inace treba biti rec_data_ready
+		clk    	=> clk,
+		rst    	=> reset_uart,
+		rx			=> rx_pin,
+		data_out	=>	rec_data_buffer,
+		ready  	=> rec_data_ready -- za testiranje ovo je open inace treba biti rec_data_ready
 	);
 	
 	servo_module : Servo_Controller
@@ -202,18 +209,18 @@ begin
 		port map(
 			clk					=> clk,
 			reset					=> '0',
-			data_in				=> std_logic_vector(mock_rec_data),
-			request_obrada		=> obrada_req_db,
+			data_in				=> rec_data_buffer,
+			request_obrada		=> obrada_req,
 			obrada_done			=> obrada_sig,
 			prosjek				=> prosjek_std
 		);
 		
-	sw_db: ButtonDebounce
-		port map(
-			button_in 	=> SW(2),
-			clock			=> clk,
-			button_out	=> rec_data_ready_db
-		);
+--	sw_db: ButtonDebounce
+--		port map(
+--			button_in 	=> SW(2),
+--			clock			=> clk,
+--			button_out	=> rec_data_ready_db
+--		);
 		
 	obrada_req_db_comp: ButtonDebounce
 		port map(

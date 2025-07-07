@@ -11,9 +11,9 @@ entity Servo_Driver is
 end entity;
 
 architecture Beh of Servo_Driver is
-	constant cycles_per_deg       : unsigned(15 downto 0) := to_unsigned(278, 16); -- adjust as needed
-	constant zero_deg_cycles      : unsigned(19 downto 0) := to_unsigned(50000, 20); -- 1ms pulse width
-	constant cycles_per_pwm_frame : unsigned(19 downto 0) := to_unsigned(1000000, 20); -- 20ms @ 50 MHz
+	constant cycles_per_deg       : unsigned(15 downto 0) 	:= to_unsigned(156, 16);     -- (1ms * 28MHz) / 180deg ~= 155.55
+    constant zero_deg_cycles      : unsigned(19 downto 0) 	:= to_unsigned(28000, 20);   -- 1ms pulse width @ 28 MHz
+    constant cycles_per_pwm_frame : unsigned(19 downto 0) 	:= to_unsigned(560000, 20);  -- 20ms frame @ 28 MHz
 
 	signal period_counter     : unsigned(19 downto 0) := (others => '0');
 	signal duty_cycle_counter : unsigned(19 downto 0) := (others => '0');
